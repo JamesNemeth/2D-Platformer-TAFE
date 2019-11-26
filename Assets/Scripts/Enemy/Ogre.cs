@@ -9,22 +9,27 @@ public class Ogre : Enemy
     public GameObject ogrePrefab;
     public bool allowSpawn = true;
 
-    public override void Start()
+    protected override void Start()
     {
+        // Allows this script to use the everything in the Start function in Enemy
         base.Start();
+
+        // Gets the ogre prefab from the assests
         ogrePrefab = Resources.Load<GameObject>("Prefabs/Ogre");
     }
-
-    public override void Update()
+    protected override void Update()
     {
+        // Allows this script to use the everything in the Update function in Enemy
         base.Update();
 
+        // Calls on the EnemyPos Function
         EnemyPos();
 
         if (health <= 0)
         {
             if (allowSpawn)
             {
+                // Spawns a new Ogre and makes it contuine on its way points
                 GameObject clone = Instantiate(ogrePrefab, enemyPosition, Quaternion.identity);
                 Ogre newOgre = clone.GetComponent<Ogre>();
                 newOgre.path = path;
@@ -36,6 +41,7 @@ public class Ogre : Enemy
     }
     public void EnemyPos()
     {
+        // Makes the cloned ogre spawn on the original ogre
         enemyPosition = transform.position;
     }
 }

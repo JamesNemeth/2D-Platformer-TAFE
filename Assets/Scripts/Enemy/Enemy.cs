@@ -8,35 +8,19 @@ public class Enemy : MonoBehaviour
     public int health;
     public float speed;
     public WayPoints path;
-
-    private bool isHit;
-
-    bool damaged;
-
     private Transform target;
     private int currentWaypoint = 0;
 
-    public virtual void Start()
+    protected virtual void Start()
     {
         target = path.points[currentWaypoint];
     }
-
-    public virtual void Update()
+    protected virtual void Update()
     {
         if (health <= 0)
         {
             Destroy(gameObject);
             //animator.SetBool("isDead", true);
-        }
-
-        if (isHit)
-        {
-            damaged = true;
-            isHit = false;
-        }
-        if (damaged)
-        {
-            damaged = false;
         }
 
         Vector3 dir = target.position - transform.position;
@@ -47,14 +31,12 @@ public class Enemy : MonoBehaviour
             GetNextWaypoint();
         }
     }
-
     public void TakeDamage(int damage)
     {
         health -= damage;
-        isHit = true;
     }
 
-    void GetNextWaypoint()
+    private void GetNextWaypoint()
     {
         currentWaypoint++;
         if (currentWaypoint >= path.points.Length)
